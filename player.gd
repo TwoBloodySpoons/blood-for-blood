@@ -2,7 +2,10 @@ extends CharacterBody3D
 
 @onready var camera = $Camera3D
 @onready var anim_player = $AnimationPlayer
-@onready var muzzle = $Camera3D/RocketPistol/Muzzle  
+@onready var muzzle = $Camera3D/RocketPistol/Muzzle
+@onready var raycast = $Camera3D/RayCast3D
+
+var health = 3
 
 const SPEED = 10.0
 const JUMP_VELOCITY = 8.5
@@ -29,6 +32,9 @@ func _unhandled_input(event):
 	
 	if Input.is_action_just_pressed("shoot") and anim_player.current_animation != "shoot":
 		play_shoot_effects.rpc()
+		if raycast.is_colliding():
+			var hit_player = raycast.get_collider()
+			hit_player.receive_dmg.rpc_id(hit_player.get_multiplayer_authority()) 
 
 func _physics_process(delta):
 	if not is_multiplayer_authority(): return
@@ -59,12 +65,18 @@ func _physics_process(delta):
 	move_and_slide()
 
 @rpc("call_local")
-
 func play_shoot_effects():
 	anim_player.stop()
 	anim_player.play("shoot")
 	muzzle.restart()
 	muzzle.emitting = true
+
+@rpc("any_peer")
+func receive_dmg():
+	health -= 1
+	if health <= 0:
+		health = 3
+		position = Vector3.ZERO
 
 
 func _on_animation_player_animation_finished(anim_name):
