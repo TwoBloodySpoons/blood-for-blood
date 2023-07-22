@@ -1,10 +1,18 @@
-[gd_scene load_steps=17 format=3 uid="uid://w1jc6cgpmolg"]
+[gd_scene load_steps=19 format=3 uid="uid://w1jc6cgpmolg"]
 
 [ext_resource type="Script" path="res://player.gd" id="1_qpqix"]
 [ext_resource type="PackedScene" uid="uid://d0oux2xx2bqqv" path="res://Assets/RocketPistol.gltf" id="2_4kh88"]
+[ext_resource type="Texture2D" uid="uid://d3esa6rvibl3b" path="res://addons/kenney_prototype_textures/red/texture_11.png" id="2_wgh8b"]
 [ext_resource type="Texture2D" uid="uid://bvqcbxkhlh5at" path="res://addons/kenney_particle_pack/star_06.png" id="3_d02mr"]
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_pibml"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_7wk46"]
+albedo_texture = ExtResource("2_wgh8b")
+clearcoat_enabled = true
+anisotropy_enabled = true
+anisotropy = 1.0
+ao_enabled = true
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_hcw3m"]
 
@@ -51,7 +59,7 @@ tracks/0/keys = {
 "times": PackedFloat32Array(0, 1.5),
 "transitions": PackedFloat32Array(-2, -2),
 "update": 0,
-"values": [Vector3(0.5, -0.25, -0.5), Vector3(0.5, -0.381432, -0.5)]
+"values": [Vector3(0, -0.4, -0.5), Vector3(0, -0.5, -0.5)]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
@@ -80,7 +88,7 @@ tracks/0/keys = {
 "times": PackedFloat32Array(0, 0.25, 0.5, 0.75),
 "transitions": PackedFloat32Array(0.5, 2, 0.5, 2),
 "update": 0,
-"values": [Vector3(0.5, -0.25, -0.5), Vector3(0.465912, -0.223279, -0.5), Vector3(0.5, -0.25, -0.5), Vector3(0.529819, -0.231133, -0.5)]
+"values": [Vector3(0, -0.4, -0.5), Vector3(0.05, -0.223, -0.5), Vector3(0, -0.4, -0.5), Vector3(-0.05, -0.231, -0.5)]
 }
 
 [sub_resource type="Animation" id="Animation_ia4lj"]
@@ -123,7 +131,7 @@ tracks/0/keys = {
 "times": PackedFloat32Array(0, 0.4),
 "transitions": PackedFloat32Array(0.5, 0.5),
 "update": 0,
-"values": [Vector3(0.5, -0.202325, -0.5), Vector3(0.5, -0.25, -0.5)]
+"values": [Vector3(0, -0.202, -0.5), Vector3(0, -0.25, -0.5)]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
@@ -165,11 +173,12 @@ collision_layer = 2
 script = ExtResource("1_qpqix")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+transform = Transform3D(0.9, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 mesh = SubResource("CapsuleMesh_pibml")
+surface_material_override/0 = SubResource("StandardMaterial3D_7wk46")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+transform = Transform3D(0.9, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 shape = SubResource("CapsuleShape3D_hcw3m")
 
 [node name="Camera3D" type="Camera3D" parent="."]
