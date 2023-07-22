@@ -1,9 +1,8 @@
-[gd_scene load_steps=18 format=3 uid="uid://w1jc6cgpmolg"]
+[gd_scene load_steps=17 format=3 uid="uid://w1jc6cgpmolg"]
 
 [ext_resource type="Script" path="res://player.gd" id="1_qpqix"]
 [ext_resource type="PackedScene" uid="uid://d0oux2xx2bqqv" path="res://Assets/RocketPistol.gltf" id="2_4kh88"]
 [ext_resource type="Texture2D" uid="uid://bvqcbxkhlh5at" path="res://addons/kenney_particle_pack/star_06.png" id="3_d02mr"]
-[ext_resource type="Texture2D" uid="uid://del3rcjcwnk3i" path="res://addons/kenney_particle_pack/circle_02.png" id="4_sqvv8"]
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_pibml"]
 
@@ -188,17 +187,6 @@ one_shot = true
 local_coords = true
 process_material = SubResource("ParticleProcessMaterial_mc0l2")
 draw_pass_1 = SubResource("PlaneMesh_qvvj0")
-
-[node name="TextureRect" type="TextureRect" parent="Camera3D"]
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-scale = Vector2(0.04, 0.04)
-pivot_offset = Vector2(576, 324)
-texture = ExtResource("4_sqvv8")
-stretch_mode = 5
 
 [node name="RayCast3D" type="RayCast3D" parent="Camera3D"]
 target_position = Vector3(0, 0, -50)
