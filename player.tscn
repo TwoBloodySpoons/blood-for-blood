@@ -1,8 +1,9 @@
-[gd_scene load_steps=16 format=3 uid="uid://w1jc6cgpmolg"]
+[gd_scene load_steps=18 format=3 uid="uid://w1jc6cgpmolg"]
 
 [ext_resource type="Script" path="res://player.gd" id="1_qpqix"]
 [ext_resource type="PackedScene" uid="uid://d0oux2xx2bqqv" path="res://Assets/RocketPistol.gltf" id="2_4kh88"]
 [ext_resource type="Texture2D" uid="uid://bvqcbxkhlh5at" path="res://addons/kenney_particle_pack/star_06.png" id="3_d02mr"]
+[ext_resource type="Texture2D" uid="uid://dx1hpmjtqd7c3" path="res://addons/kenney_particle_pack/circle_05.png" id="4_1m8ly"]
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_pibml"]
 
@@ -66,6 +67,23 @@ tracks/1/keys = {
 "values": [Vector3(0, 0, 0), Vector3(-0.561437, 0, 0)]
 }
 
+[sub_resource type="Animation" id="Animation_b8gpg"]
+resource_name = "Move"
+loop_mode = 1
+step = 0.25
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Camera3D/RocketPistol:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.25, 0.5, 0.75),
+"transitions": PackedFloat32Array(0.5, 2, 0.5, 2),
+"update": 0,
+"values": [Vector3(0.5, -0.25, -0.5), Vector3(0.465912, -0.223279, -0.5), Vector3(0.5, -0.25, -0.5), Vector3(0.529819, -0.231133, -0.5)]
+}
+
 [sub_resource type="Animation" id="Animation_ia4lj"]
 length = 0.001
 tracks/0/type = "value"
@@ -91,23 +109,6 @@ tracks/1/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 0,
 "values": [Vector3(0, 0, 0)]
-}
-
-[sub_resource type="Animation" id="Animation_b8gpg"]
-resource_name = "Move"
-loop_mode = 1
-step = 0.25
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Camera3D/RocketPistol:position")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.25, 0.5, 0.75),
-"transitions": PackedFloat32Array(0.5, 2, 0.5, 2),
-"update": 0,
-"values": [Vector3(0.5, -0.25, -0.5), Vector3(0.465912, -0.223279, -0.5), Vector3(0.5, -0.25, -0.5), Vector3(0.529819, -0.231133, -0.5)]
 }
 
 [sub_resource type="Animation" id="Animation_5lur8"]
@@ -146,6 +147,20 @@ _data = {
 "shoot": SubResource("Animation_5lur8")
 }
 
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_bqr83"]
+properties/0/path = NodePath(".:position")
+properties/0/spawn = true
+properties/0/sync = true
+properties/0/watch = false
+properties/1/path = NodePath(".:rotation")
+properties/1/spawn = true
+properties/1/sync = true
+properties/1/watch = false
+properties/2/path = NodePath("Camera3D:rotation")
+properties/2/spawn = true
+properties/2/sync = true
+properties/2/watch = false
+
 [node name="Player" type="CharacterBody3D"]
 collision_layer = 2
 script = ExtResource("1_qpqix")
@@ -173,8 +188,24 @@ local_coords = true
 process_material = SubResource("ParticleProcessMaterial_mc0l2")
 draw_pass_1 = SubResource("PlaneMesh_qvvj0")
 
+[node name="TextureRect" type="TextureRect" parent="Camera3D"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.04, 0.04)
+pivot_offset = Vector2(576, 324)
+texture = ExtResource("4_1m8ly")
+stretch_mode = 5
+
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 playback_default_blend_time = 0.05
 libraries = {
 "": SubResource("AnimationLibrary_boq5k")
 }
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_bqr83")
+
+[connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]

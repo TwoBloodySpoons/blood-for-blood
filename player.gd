@@ -10,19 +10,28 @@ const JUMP_VELOCITY = 8.5
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 var gravity = 20
 
+func _enter_tree():
+	set_multiplayer_authority(str(name).to_int())
+
 func _ready():
+	if not is_multiplayer_authority(): return
+	
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
+	camera.current = true
 	
 func _unhandled_input(event):
+	if not is_multiplayer_authority(): return
+	
 	if event is InputEventMouseMotion:
 		rotate_y(-event.relative.x * 0.005)
 		camera.rotate_x(-event.relative.y  * 0.005)
 		camera.rotation.x = clamp(camera.rotation.x, -PI/2, PI/2)
 	
 	if Input.is_action_just_pressed("shoot") and anim_player.current_animation != "shoot":
-		play_shoot_effects()
+		play_shoot_effects.rpc()
 
 func _physics_process(delta):
+	if not is_multiplayer_authority(): return
 	# Add the gravity.
 	if not is_on_floor():
 		velocity.y -= gravity * delta
@@ -49,8 +58,16 @@ func _physics_process(delta):
 		anim_player.play("Idle")
 	move_and_slide()
 
+@rpc("call_local")
+
 func play_shoot_effects():
 	anim_player.stop()
 	anim_player.play("shoot")
 	muzzle.restart()
 	muzzle.emitting = true
+
+
+func _on_animation_player_animation_finished(anim_name):
+	if anim_name == "shoot":
+		anim_player.play("Idle")
+	pass # Replace with function body.
