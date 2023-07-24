@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://w1jc6cgpmolg"]
+[gd_scene load_steps=20 format=3 uid="uid://w1jc6cgpmolg"]
 
 [ext_resource type="Script" path="res://player.gd" id="1_qpqix"]
 [ext_resource type="PackedScene" uid="uid://d0oux2xx2bqqv" path="res://Assets/RocketPistol.gltf" id="2_4kh88"]
@@ -90,6 +90,18 @@ tracks/0/keys = {
 "update": 0,
 "values": [Vector3(0, -0.4, -0.5), Vector3(0.05, -0.223, -0.5), Vector3(0, -0.4, -0.5), Vector3(-0.05, -0.231, -0.5)]
 }
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("MeshInstance3D:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(-2, -2),
+"update": 0,
+"values": [Vector3(-0.139626, 0, 0), Vector3(-0.0523599, 0, 0)]
+}
 
 [sub_resource type="Animation" id="Animation_ia4lj"]
 length = 0.001
@@ -116,6 +128,42 @@ tracks/1/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 0,
 "values": [Vector3(0, 0, 0)]
+}
+tracks/2/type = "rotation_3d"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("MeshInstance3D")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = PackedFloat32Array()
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("MeshInstance3D:rotation")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(-0.116937, 0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_34bvq"]
+resource_name = "moveforward"
+length = 0.7
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("MeshInstance3D:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(-2, -2),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(-0.10472, 0, 0)]
 }
 
 [sub_resource type="Animation" id="Animation_5lur8"]
@@ -151,6 +199,7 @@ _data = {
 "Idle": SubResource("Animation_wvi0e"),
 "Move": SubResource("Animation_b8gpg"),
 "RESET": SubResource("Animation_ia4lj"),
+"moveforward": SubResource("Animation_34bvq"),
 "shoot": SubResource("Animation_5lur8")
 }
 
@@ -173,7 +222,7 @@ collision_layer = 2
 script = ExtResource("1_qpqix")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
-transform = Transform3D(0.9, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+transform = Transform3D(0.9, 0, 0, 0, 0.993171, 0.116671, 0, -0.116671, 0.993171, 0, 1, 0)
 mesh = SubResource("CapsuleMesh_pibml")
 surface_material_override/0 = SubResource("StandardMaterial3D_7wk46")
 
